@@ -1342,7 +1342,57 @@ public class project {
         return c - '0';
     }
 
+    /**
+     * A method that checks the gameboard and plays accordingly.
+     * 
+     * @param arr gameboard as a matrix
+     * @return the chosen cell to play
+     */
+    public static int hardAi(int[][] arr) {
+        int out;
+        int win = 0, block = 0;
+        for (int x = 0; x < 3; x++) {
+            if ((out = returnDifferent(arr, 3 * x + 1, 3 * x + 2, 3 * x + 3, 1)) > 0)
+                block = out;
+            if ((out = returnDifferent(arr, 3 * x + 1, 3 * x + 2, 3 * x + 3, 2)) > 0)
+                win = out;
+            if ((out = returnDifferent(arr, x + 1, x + 4, x + 7, 1)) > 0)
+                block = out;
+            if ((out = returnDifferent(arr, x + 1, x + 4, x + 7, 2)) > 0)
+                win = out;
+        }
+        if ((out = returnDifferent(arr, 1, 5, 9, 1)) > 0)
+            block = out;
+        if ((out = returnDifferent(arr, 1, 5, 9, 2)) > 0)
+            win = out;
+        if ((out = returnDifferent(arr, 3, 5, 7, 1)) > 0)
+            block = out;
+        if ((out = returnDifferent(arr, 3, 5, 7, 2)) > 0)
+            win = out;
+        if(win != 0)
+            return win;
+        return block;
+    }
 
+    /**
+     * A method for the ai of the game that returns the cell that has a different value if the other 2 have the same value.
+     * 
+     * @param arr gameboard as a matrix
+     * @param a first cell to check
+     * @param b second cell to check
+     * @param c third cell to check
+     * @return the cell that has the different value, return 0 if all of them are different
+     */
+    public static int returnDifferent(int[][] arr, int a, int b, int c, int player) {
+        int out = 0;
+        if (arr[(a - 1) / 3][(a - 1) % 3] == arr[(b - 1) / 3][(b - 1) % 3] && arr[(a - 1) / 3][(a - 1) % 3] == player && arr[(c - 1) / 3][(c - 1) % 3] == 0)
+            out = c;
+        if (arr[(b - 1) / 3][(b - 1) % 3] == arr[(c - 1) / 3][(c - 1) % 3] && arr[(b - 1) / 3][(b - 1) % 3] == player && arr[(a - 1) / 3][(a - 1) % 3] == 0) 
+            out = a;
+        if (arr[(a - 1) / 3][(a - 1) % 3] == arr[(c - 1) / 3][(c - 1) % 3] && arr[(a - 1) / 3][(a - 1) % 3] == player && arr[(b - 1) / 3][(b - 1) % 3] == 0) 
+            out = b;
+        return out;
+    }
     
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
