@@ -1031,6 +1031,141 @@ public class project {
 // TicTacToe Functions
 //*****************************************************************************
 //*****************************************************************************
+ /**
+     * A method for the main menu of the Tic Tac Toe game.
+     */
+    public static void game() {
+        int[][] arr = new int[3][3]; // game board
+        int y;
+        int player = 0;
+        int difficulty = 0;
+        String input;
+        Random rand = new Random(); // random number generator for AI
+
+        pRules();
+
+        // Loop until player chooses 1 (singleplayer) or 2 (multiplayer)
+        int moveNumber = 0;
+        while (player != 1 && player != 2) {
+            System.out.print("\nPress 1 for singleplayer, Press 2 for multiplayer: ");
+            input = scanner.nextLine();
+            player = inputCheck(input, 1, 2);
+
+            switch (player) {
+                case 1: // Singleplayer
+                    while (difficulty != 1 && difficulty != 2) {
+                        System.out.print("\n|DIFFICULTY|\n1) Easy\n2) Hard\nChoose a difficulty to start: ");
+                        input = scanner.nextLine();
+                        difficulty = inputCheck(input, 1, 2);
+
+                        switch (difficulty) {
+                            case 1: // Easy AI
+                                while (true) {
+                                    clear();
+                                    System.out.println("\nPlayer's turn");
+                                    gBoard(arr);
+                                    System.out.print("Choose a cell to play: ");
+                                    input = scanner.nextLine();
+                                    y = inputCheck(input, 1, 9);
+                                    y = moveCheck(arr, y);
+                                    gMove(arr, 1, y);
+                                    moveNumber++;
+                                    if (winningCondition(arr, 1, 0) == 1)
+                                        break;
+                                    if (gOver(arr) == 1)
+                                        break;
+                                    // AI move
+                                    System.out.println("\nComputer's turn");
+                                    y = rand.nextInt(9) + 1;
+                                    y = moveCheckAi(arr, y);
+                                    System.out.println("Computer chose cell " + y + ".");
+                                    gMove(arr, 2, y);
+                                    moveNumber++;
+                                    if (winningCondition(arr, 2, 1) == 1)
+                                        break;
+                                    if (gOver(arr) == 1)
+                                        break;
+                                }
+                                break;
+
+                            case 2: // Hard AI
+                                while (true) {
+                                    clear();
+                                    System.out.println("\nComputer's turn");
+                                    y = hardAi(arr);
+                                    if (y == 0) 
+                                        y = rand.nextInt(9) + 1;
+                                    y = moveCheckAi(arr, y);
+                                    System.out.println("Computer chose cell " + y + ".");
+                                    gMove(arr, 2, y);
+                                    moveNumber++;
+                                    if (winningCondition(arr, 2, 1) == 1)
+                                        break;
+                                    if (gOver(arr) == 1)
+                                        break;
+
+                                    System.out.println("\nPlayer's turn");
+                                    gBoard(arr);
+                                    System.out.print("Choose a cell to play: ");
+                                    input = scanner.nextLine();
+                                    y = inputCheck(input, 1, 9);
+                                    y = moveCheck(arr, y);
+                                    gMove(arr, 1, y);
+                                    moveNumber++;
+                                    if (winningCondition(arr, 1, 0) == 1) 
+                                        break;
+                                    if (gOver(arr) == 1) 
+                                        break;
+                                }
+                                break;
+
+                            default:
+                                System.out.println("\nIncorrect input, try again.");
+                        }
+                    }
+                    break;
+
+                case 2: // Multiplayer
+                    while (true) {
+                        clear();
+                        System.out.println("\nPlayer 1's turn");
+                        gBoard(arr);
+                        System.out.print("Choose a cell to play: ");
+                        input = scanner.nextLine();
+                        y = inputCheck(input, 1, 9);
+                        y = moveCheck(arr, y);
+                        gMove(arr, 1, y);
+                        moveNumber++;
+                        if (winningCondition(arr, 1, 0) == 1)
+                            break;
+                        if (gOver(arr) == 1)
+                            break;
+                        clear();
+                        System.out.println("\nPlayer 2's turn");
+                        gBoard(arr);
+                        System.out.print("Choose a cell to play: ");
+                        input = scanner.nextLine();
+                        y = inputCheck(input, 1, 9);
+                        y = moveCheck(arr, y);
+                        gMove(arr, 2, y);
+                        moveNumber++;
+                        if (winningCondition(arr, 2, 0) == 1)
+                            break;
+                        if (gOver(arr) == 1)
+                            break;
+                    }
+                    break;
+
+                default:
+                    System.out.println("\nIncorrect input, try again.");
+            }
+        }
+
+        System.out.println("\nGame is finished in " + moveNumber + " moves.");
+        gBoard(arr);
+        System.out.print("Press enter to continue: ");
+        scanner.nextLine();
+    }
 
 
 
