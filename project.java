@@ -60,8 +60,88 @@ public class project {
 // GENERAL FUNCTIONS THAT WE WILL USE IN MORE THAN ONE FUNCTION
 //*****************************************************************************
 //*****************************************************************************
+  
+    /**
+     * Converts a given string that contains only one number in double format to a double.
+     * 
+     * @param input the part of a string that needs to be converted to a double
+     * @return the input as a double
+     */
+    public static double toDouble(String input){
+        boolean isNegative = false;
+        double value = 0;
+        int dot = input.indexOf('.');
+        for(int i = 0 ; i < input.length(); i++){
+            if(input.charAt(i) == '-')
+                isNegative = true;
+            else{
+                if(input.charAt(i) != '.'){
+                    double number = input.charAt(i) - '0';
+                    value += digit(number, dot - i - 1);
+                }
+            }
+        }
+        if(isNegative)
+            value *= -1;
+        return value;
+    }
 
+    /**
+     * Converts a given string that contains only one number in integer format to an integer.
+     * 
+     * @param input the part of a string that needs to be converted to an integer
+     * @return the input as an integer
+     */
+    public static int toInt(String input){
+        boolean isNegative = false;
+        int value = 0;
+        for(int i = 0 ; i < input.length(); i++){
+            if(input.charAt(i) == '-')
+                isNegative = true;
+            else{
+                int number = input.charAt(i) - '0';
+                value += digit(number, input.length() - i - 1);
+            }
+        }
+        if(isNegative)
+            value *= -1;
+        return value;
+    }
 
+    /**
+     * This method shifts a double value’s decimal point by the specified digit value. A positive digit moves it right, a negative digit moves it left. For example, digit(5, 4) returns 50000. 
+     * 
+     * @param value given number
+     * @param digit digit value to shift the digit
+     * @return shifted version of the number
+     */
+    public static double digit(double value, int digit){
+        if(digit > 0)
+            for(int i = 0; i < digit; i++){
+            value *= 10;
+            }
+        if(digit < 0){
+            digit++;
+            for(; digit < 0; digit++){
+                value /= 10;
+            }
+        }
+        return value;
+    }
+
+    /**
+     * This method appends zeros to value by multiplying it by 10 repeatedly, based on digit. For example, digit(5, 3) returns 5000.
+     * 
+     * @param value given number
+     * @param digit digit value to shift the digit
+     * @return shifted version of the number
+     */
+    public static int digit(int value, int digit){
+        for(int i = 0; i < digit; i++){
+        value *= 10;
+        }
+        return value;
+    }
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
