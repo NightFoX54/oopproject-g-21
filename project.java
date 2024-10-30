@@ -292,7 +292,276 @@ public class project {
 //*****************************************************************************
 //*****************************************************************************
 
+    /**
+     * A method that takes a matrix as an input from the user and calculates the inverse of that matrix.
+     */
+    public static void inverse(){
+        clear();
+        int[] dimensions = new int[2];
+        String input = getDimension(dimensions, "");
+        while((dimensions[0] != dimensions[1] || dimensions[0] == 1) && !input.equals("X")){
+            System.out.println("This matrix is not invertible, both dimensions needs to be the same. Please try again.");
+            input = getDimension(dimensions, "");
+        }
+        if(!input.equals("X")){
+            int x = dimensions[0];
+            int y = dimensions[1];
+            double[][] matrix = new double[x][y];
+            input = getValue(matrix, x, y, " ");
+            if(!input.equals("X")){
+                double determinant = determinant(matrix, x, y);
+                if(determinant != 0){
+                    double[][] cofactor = new double[x][y];
+                    cofactor(matrix, cofactor, x, y);
+                    double[][] transpose = new double[x][y];
+                    transpose(cofactor, transpose, x, y);
+                    for(int i = 0; i < x; i++){
+                        for(int j = 0; j < y; j++){
+                            transpose[i][j] /= determinant;
+                        }
+                    }
+                    System.out.println("Your matrix: ");
+                    printMatrix(matrix, x, y);
+                    System.out.println("Inverse of your matrix: ");
+                    printMatrix(transpose, x, y);
+                    System.out.print("Press enter to continue: ");
+                    scanner.nextLine();
+                }
+                else{
+                    System.out.println("This matrix is non-invertible.");
+                    System.out.print("Press enter to continue: ");
+                    scanner.nextLine();
+                }
+            }
+        }
+    }
 
+    /**
+     * A method that saves the cofactor matrix of matrix1 to matrix2.
+     * 
+     * @param matrix1 given matrix
+     * @param matrix2 an empty matrix to save the cofator matrix
+     * @param x the total number of rows in matrix1
+     * @param y the total number of columns in matrix1
+     */
+    public static void cofactor(double[][] matrix1, double[][] matrix2, int x, int y){
+        if(x == 2){
+            matrix2[0][0] = matrix1[1][1];
+            matrix2[0][1] = matrix1[1][0] * -1;
+            matrix2[1][0] = matrix1[0][1] * -1;
+            matrix2[1][1] = matrix1[0][0];
+        }
+        else
+            for(int i = 0; i < x; i++){
+                for(int j = 0; j < y; j++){
+                    double[][] minor = new double[x-1][y-1];
+                    minor(matrix1, minor, i, j, x, y);
+                    if((i + j) % 2 == 0)
+                        matrix2[i][j] = determinant(minor, x - 1, y - 1);
+                    else
+                        matrix2[i][j] = determinant(minor, x - 1, y - 1) * -1;
+                }
+            }
+    }
+
+    /**
+     * A method that calculates the determinant of the given matrix.
+     * 
+     * @param matrix given matrix
+     * @param x the total number of rows in matrix1
+     * @param y the total number of columns in matrix1
+     * @return determinant of the given matrix
+     */
+    public static double determinant(double[][] matrix, int x, int y){
+        if(x == 2 && y == 2){
+            return((matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0]));
+        }
+        else{
+            double[][] minor = new double[x-1][y-1];
+            double[] det = new double[y];
+            double determinant = 0;
+            for(int i = 0; i < y; i++){
+                minor(matrix, minor, 0, i, x, y);
+                if(i % 2 == 0)
+                    det[i] = matrix[0][i] * determinant(minor, x-1, y-1);
+                else 
+                    det[i] = matrix[0][i] * determinant(minor, x-1, y-1) * -1;
+                determinant += det[i];
+            }
+            return determinant;
+        }
+    }
+
+    /**
+     * A method that saves the minor matrix of matrix1 into matrix2, excluding the specified row and column from matrix1.
+     * 
+     * @param matrix1 the given matrix
+     * @param matrix2 an empty matrix to save the minor matrix
+     * @param x1 the row index of the element to exclude from matrix1
+     * @param y1 the column index of the element to exclude from matrix1
+     * @param x the total number of rows in matrix1
+     * @param y the total number of columns in matrix1
+     */
+    public static void minor(double[][] matrix1, double[][] matrix2, int x1, int y1, int x, int y){
+        int i1 = 0;
+        for(int i = 0; i < x; i++){
+            int j1 = 0;
+            for(int j = 0; j < y; j++){
+                if(i != x1 && j != y1){
+                    matrix2[i1][j1] = matrix1[i][j];
+                    j1++;
+                }
+            }
+            if(i != x1)
+                i1++;
+        }
+    }
+
+    /**
+     * A method that takes two matrixes as inputs from the user and calculates the multiplications of those matrixes.
+     */
+    public static void multiply(){
+        clear();
+        int x1 = 0, x2 = 0, y1 = 0, y2 = 0;
+        int[] dimensions = new int[2];
+        String input;
+        while(true){
+            input = getDimension(dimensions, "first ");
+            if(input.equals("X"))
+                break;
+            x1 = dimensions[0];
+            y1 = dimensions[1];
+            input = getDimension(dimensions, "second ");
+            if(input.equals("X"))
+                break;
+            x2 = dimensions[0];
+            y2 = dimensions[1];
+            clear();
+            if(y1 == x2 || y2 == x1)
+                break;
+            else{
+                System.out.println("Incorrect input! Number of rows of the second matrix has to be equal to the number of columns of the first matrix!");
+            }
+        }
+        if(!input.equals("X")){
+            double[][] matrix1 = new double[x1][y1];
+            double[][] matrix2 = new double[x2][y2];
+            getValue(matrix1, x1, y1, "first ");
+            if(!input.equals("X"))
+                input = getValue(matrix2, x2, y2, "second ");
+            if(!input.equals("X")){
+                double[][] matrix3 = {};
+                if(y1 == x2){
+                    matrix3 = new double[x1][y2];
+                    for(int i = 0; i < x1; i++){
+                        for(int j = 0; j < y2; j++){
+                            matrix3[i][j] = 0;
+                            for(int k = 0; k < x2; k++){
+                                matrix3[i][j] += matrix1[i][k] * matrix2[k][j];
+                            }
+                        }
+                    }
+                }
+                else if(y2 == x1){
+                    matrix3 = new double[x2][y1];
+                    for(int i = 0; i < x2; i++){
+                        for(int j = 0; j < y1; j++){
+                            matrix3[i][j] = 0;
+                            for(int k = 0; k < x1; k++){
+                                matrix3[i][j] += matrix1[k][j] * matrix2[i][k];
+                            }
+                        }
+                    }
+                }
+                clear();
+                System.out.println("First given matrix: ");
+                printMatrix(matrix1, x1, y1);
+                System.out.println("Second given matrix: ");
+                printMatrix(matrix2, x2, y2);
+                System.out.println("Multiplication of given matrixes: ");
+                if(y1 == x2)
+                    printMatrix(matrix3, x1, y2);
+                else if(y2 == x1)
+                    printMatrix(matrix3, x2, y1);
+                System.out.print("Press enter to continue: ");
+                scanner.nextLine();
+            }
+        }
+    }
+
+
+
+    /**
+     * A method that returns the number of digits in the given double value.
+     * 
+     * @param number the given number
+     * @return the number of digits in the given double value
+     */
+    public static int returnDigit(double number){
+        long number2 = (long)Math.abs(number);
+        int digit = 0;
+        while(number2 > 0){
+            number2 /= 10;
+            digit++;
+        }
+        if(number == 0)
+            return 1;
+        else if(number < 0)
+            return (digit + 1);
+        else
+            return digit;
+    }
+
+    /**
+     * A method that prints the given matrix.
+     * 
+     * @param matrix the matrix that needs to be printed
+     * @param x the total number of rows in matrix
+     * @param y the total number of columns in matrix
+     */
+    public static void printMatrix(double[][] matrix, int x, int y){
+        double max = 0.0, min = 0.0;
+        for(int i = 0; i < x; i++){
+            for(int j = 0; j < y; j++){
+                if(matrix[i][j] < min)
+                    min = matrix[i][j];
+                if(matrix[i][j] > max)
+                    max = matrix[i][j];
+            }
+        }
+        int digitMax = returnDigit(max) + 3;
+        int digitMin = returnDigit(min) + 3;
+        int digit;
+
+        if(digitMax > digitMin)
+            digit = digitMax;
+        else
+            digit = digitMin;
+        for(int i = 0; i < x; i++){
+            System.out.print("|");
+            for(int j = 0; j < y; j++){
+                String formatted = String.format("%.2f", matrix[i][j]);
+                formatted = formatted.replace(',', '.');
+                if(formatted.equals("-0.00")){
+                    String temp = "0.00";
+                    formatted = temp;
+                }
+                int padding1 = (digit - formatted.length()) / 2; // Calculate left padding
+                int padding2 = digit - formatted.length() - padding1; // Calculate right padding
+                for(int k = 0; k < padding1; k++){
+                    System.out.print(" ");
+                }
+                System.out.print(formatted);
+                for(int k = 0; k <padding2; k++){
+                    System.out.print(" ");
+                }
+                System.out.print("|");
+            }
+            System.out.print("\n");
+        }
+    }    
+
+    
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
