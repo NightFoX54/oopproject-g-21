@@ -60,7 +60,138 @@ public class project {
 // GENERAL FUNCTIONS THAT WE WILL USE IN MORE THAN ONE FUNCTION
 //*****************************************************************************
 //*****************************************************************************
-  
+
+
+       /**
+     * Clears the terminal
+     * 
+     */
+    public static void clear(){
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    /**
+     * Checks the input according to the given selection of the operation, and gets another input from user if the previously given input is incorrect
+     * 
+     * @param input the input given from the user
+     * @param selection the selection for different types of inputs.
+     * @param dimension amount of numbers that needs to be typed
+     * @return the input again
+     */
+    public static String inputControl(String input, int selection, int dimension){
+        int correctInput;
+        while(input.length() == 0){
+            System.out.print("Incorrect input, please type again: ");
+            input = scanner.nextLine();
+        }
+        switch(selection){
+            case 1:
+                char check = input.charAt(0);
+                while(input.length() != 1 || check < 'A' || check > 'E'){
+                    System.out.print("Incorrect input, please type again: ");
+                    input = scanner.nextLine();
+                    check = input.charAt(0);
+                }
+                break;
+            case 2:
+                correctInput = 0;
+                while(correctInput == 0){
+                    correctInput = 1;
+                    char current;
+                    if(input.contains(",")){
+                        int comma = input.indexOf(',');
+                        if(comma != 0 || comma != input.length()){
+                            String x = input.substring(0,comma);
+                            String y = input.substring(comma + 1);
+                            for(int i = 0; i < x.length(); i++){
+                                current = x.charAt(i);
+                                
+                                if(current < '0' || current > '9')
+                                    correctInput = 0;
+                            }
+                            for(int i = 0; i < y.length(); i++){
+                                current = y.charAt(i);
+                                if(current < '0' || current > '9')
+                                    correctInput = 0;
+                            }
+                        }
+                        else
+                            correctInput = 0;
+                    }
+                    else{
+                        correctInput = 0;
+                    }
+                    if(input.equals("X"))
+                        correctInput = 1;
+                    if(correctInput == 0){
+                        System.out.print("Incorrect input, please type again or type 'X' to go back to previous menu: ");
+                        input = scanner.nextLine();
+                    }
+                }
+                break;
+            case 3:
+                correctInput = 0;
+                while(correctInput == 0){
+                    correctInput = 1;
+                    int commaCount = 0;
+                    int prevComma = -1; 
+                    int latestDot = -2;
+                    for(int i = 0; i < input.length(); i++){
+                        char current = input.charAt(i);
+                        if(current < '0' || current > '9'){
+                            if(current == '.' && latestDot < prevComma){
+                                latestDot = i;
+                            }
+                            else if(current == ',' && i != prevComma + 1 && i != input.length() - 1){
+                                if(latestDot < prevComma){
+                                    correctInput = 0;
+                                }
+                                prevComma = i;
+                                commaCount++;
+                            }
+                            else if(current == '-' && (i == 0 || input.charAt(i - 1) == ','));
+                            else{
+                                correctInput = 0;
+                            }
+                        }
+                        if((i == input.length() - 1) && latestDot < prevComma)
+                            correctInput = 0;
+                    }
+                    if(dimension != 0 && commaCount != dimension - 1)
+                        correctInput = 0;
+
+                    if(input.equals("X"))
+                        correctInput = 1;
+
+                    if(correctInput == 0){
+                        System.out.print("Incorrect input, please type again or type 'X' to go back to previous menu: ");
+                        input = scanner.nextLine();
+                    }
+                }
+                break;
+            case 4:
+                correctInput = 0;
+                while(correctInput == 0){
+                    correctInput = 1;
+                    for(int i = 0; i < input.length(); i++){
+                        if(input.charAt(i) < '0' || input.charAt(i) > '9'){
+                            if(i != 0 || input.charAt(i) != '-'){
+                                correctInput = 0;
+                            }
+                        }
+                    }
+                    if(correctInput == 0){
+                        System.out.print("Incorrect input, please type again or type 'X' to go back to previous menu: ");
+                        input = scanner.nextLine();
+                    }
+                }
+
+            
+        }
+        return input;
+    }
+
     /**
      * Converts a given string that contains only one number in double format to a double.
      * 
