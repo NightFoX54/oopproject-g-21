@@ -962,7 +962,7 @@ public class project {
      * A method that takes the text to be decrypted and the decryption key from the user as an input, decrypts the text, and prints the text to the user.
      * 
      */
-    private static void decrypt(){
+    public static void decrypt(){
         System.out.print("Please type the text to decrypt: ");
         String text = scanner.nextLine();
         String key;
