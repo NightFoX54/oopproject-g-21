@@ -1167,6 +1167,54 @@ public class project {
         scanner.nextLine();
     }
 
+ /**
+     * A method that prints the rules of the game.
+     */
+    public static void pRules() {
+        System.out.println("======================== RULES ====================================");
+        System.out.println("1) Players must connect 3 of the same sign in a row to win.");
+        System.out.println("2) Only one sign is played at a time.");
+        System.out.println("3) Players can be on the offensive or defensive.");
+        System.out.println("4) The game ends when there is a 3-in-a-row or a stalemate.");
+        System.out.println("-------------------------------------------------------------------");
+    }
+
+    
+    /**
+     * A method that prints the current status of the gameboard.
+     * 
+     * @param arr gameboard as a matrix
+     */
+    public static void gBoard(int[][] arr) {
+        System.out.println("\n -------------------");
+        for (int i = 0; i < 3; i++) {
+            System.out.print(" |");
+            for (int j = 0; j < 3; j++) {
+                if (arr[i][j] == 0) {
+                    System.out.print("   |" + ((3 * i) + j + 1) + "|");
+                } 
+                else if (arr[i][j] == 1) {
+                    System.out.print(" X |" + ((3 * i) + j + 1) + "|");
+                } 
+                else {
+                    System.out.print(" O |" + ((3 * i) + j + 1) + "|");
+                }
+            }
+            System.out.println("\n -------------------");
+        }
+    }
+
+
+    /**
+     * A method that places the player's move into the gameboard.
+     * 
+     * @param arr gameboard as a matrix
+     * @param pl player number
+     * @param y cell number
+     */
+    public static void gMove(int[][] arr, int pl, int y) {
+        arr[(y - 1) / 3][(y - 1) % 3] = pl;
+    }
 
 
 //-----------------------------------------------------------------------------
