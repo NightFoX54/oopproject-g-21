@@ -391,6 +391,7 @@ public class project {
             return determinant;
         }
     }
+    
 
     /**
      * A method that saves the minor matrix of matrix1 into matrix2, excluding the specified row and column from matrix1.
@@ -489,6 +490,84 @@ public class project {
         }
     }
 
+    /**
+     * A method that takes two matrixes as inputs from the user and calculates the element-wise multiplications of those matrixes.
+     */
+     public static void elementWise(){
+        clear();
+        int x1 = 0, x2 = 0, y1 = 0, y2 = 0;
+        int[] dimensions = new int[2];
+        String input;
+        while(true){
+            input = getDimension(dimensions, "first ");
+            if(input.equals("X"))
+                break;
+            x1 = dimensions[0];
+            y1 = dimensions[1];
+            input = getDimension(dimensions, "second ");
+            if(input.equals("X"))
+                break;
+            x2 = dimensions[0];
+            y2 = dimensions[1];
+            if((x1 == x2 && y1 == y2) || (x1 == x2 && (y2 == 1 || y1 == 1)) || ((x2 == 1 || x1 == 1) && y1 == y2) || (x2 == 1 && y2 == 1) || (x1 == 1 && y1 == 1))
+                break;
+            else{
+                System.out.println("Incorrect input! Dimensions of the matrixes needs to be same or one of the matrixes needs to be a column vector or a row vector!");
+            }
+        }
+        if(!input.equals("X")){
+            double[][] matrix1 = new double[x1][y1];
+            double[][] matrix2 = new double[x2][y2];
+            input = getValue(matrix1, x1, y1, "first ");
+            if(!input.equals("X"))
+                input = getValue(matrix2, x2, y2, "second ");
+            if(!input.equals("X")){
+                double[][] matrix3 = {};
+                int x,y;
+                if((x1 == x2 && y1 == y2) || (x1 == x2 && y2 == 1) || (x2 == 1 && y1 == y2) || (x2 == 1 && y2 == 1)){
+                    matrix3 = new double[x1][y1];
+                    x = x1;
+                    y = y1;
+                    for(int i = 0; i < x1; i++){
+                        for(int j = 0; j < y1; j++){
+                            if(x1 == x2 && y1 == y2)
+                                matrix3[i][j] = matrix1[i][j] * matrix2[i][j];
+                            else if((x1 == x2 && y2 == 1))
+                                matrix3[i][j] = matrix1[i][j] * matrix2[i][0];
+                            else if(x2 == 1 && y1 == y2)
+                                matrix3[i][j] = matrix1[i][j] * matrix2[0][j];
+                            else
+                                matrix3[i][j] = matrix1[i][j] * matrix2[0][0];
+                        }
+                    }
+                }
+                else{
+                    x = x2;
+                    y = y2;
+                    matrix3 = new double[x2][y2];
+                    for(int i = 0; i < x2; i++){
+                        for(int j = 0; j < y2; j++){
+                            if((x1 == x2 && y1 == 1))
+                                matrix3[i][j] = matrix1[i][0] * matrix2[i][j];
+                            else if(x1 == 1 && y1 == y2)
+                                matrix3[i][j] = matrix1[0][j] * matrix2[i][j];
+                            else
+                                matrix3[i][j] = matrix1[0][0] * matrix2[i][j];
+                        }
+                    }
+                }
+                clear();
+                System.out.println("First given matrix: ");
+                printMatrix(matrix1, x1, y1);
+                System.out.println("Second given matrix: ");
+                printMatrix(matrix2, x2, y2);
+                System.out.println("Multiplication of given matrixes: ");
+                printMatrix(matrix3, x, y);
+                System.out.print("Press enter to continue: ");
+                scanner.nextLine();
+            }
+        }
+    }
 
 
     /**
@@ -561,6 +640,87 @@ public class project {
         }
     }    
 
+
+    /**
+     * A method that saves the given values to a matrix.
+     * 
+     * @param input input of values that needs to be saved within the matrix
+     * @param matrix an empty matrix to be filled
+     * @param x the total number of rows in matrix
+     * @param y the total number of columns in matrix
+     */
+    public static void setMatrix(String input, double[][] matrix, int x, int y){
+        double value;
+        int comma1;
+        int comma2 = -1;
+        for(int i = 0; i < x; i++){
+            for(int j = 0; j < y; j++){
+                value = 0;
+                if(i == x - 1 && j == y - 1){
+                    value = toDouble(input.substring(comma2 + 1));
+                }
+                else{
+                    comma1 = comma2 + 1;
+                    comma2 = input.indexOf(',', comma1);
+                    value = toDouble(input.substring(comma1, comma2));
+                }
+                matrix[i][j] = value;
+            }
+        }
+    }
+
+    /**
+     * A method that takes the dimensions of a matrix as an input from the user and returns the input to check if the user type 'X' to go back to previous menu.
+     * 
+     * @param dimensions a 2 sized array to save the dimensions of a matrix
+     * @param matrixNum a string to use in the printed message for the user. Input "first" for the first matrix, input an empty string if you will get only 1 matrix from the user
+     * @return the input to check if the user type 'X' to go back to previous menu.
+     */
+    public static String getDimension(int[] dimensions, String matrixNum){
+        String input;
+        System.out.print("Please type the dimensions of your " + matrixNum + "matrix with a comma in between without any space(eg. 2,3) type 'X' to go back to previous menu: ");
+        input = scanner.nextLine();
+        input = inputControl(input, 2, 0);
+        clear();
+        if(!input.equals("X"))
+            returnDimension(input, dimensions);
+        return input;
+    }
+
+    /**
+     * A method that saves the dimensions of a matrix into a 2 sized array.
+     * 
+     * @param input given input
+     * @param dimensions a 2 sized array to save the dimensions of a matrix
+     */
+    public static void returnDimension(String input, int[] dimensions){
+        int comma = input.indexOf(',');
+        int value = 0;
+        value = toInt(input.substring(0,comma));
+        dimensions[0] = value;
+        value = toInt(input.substring(comma + 1));
+        dimensions[1] = value;
+    }
+
+    /**
+     * A method that takes the values of a matrix as an input from the user and returns the input to check if the user type 'X' to go back to previous menu.
+     * 
+     * @param matrix an x*y sized empty matrix to fill
+     * @param x the total number of rows in matrix
+     * @param y the total number of columns in matrix
+     * @param valueNum a string to use in the printed message for the user. Input "First" for the first matrix
+     * @return the input to check if the user type 'X' to go back to previous menu.
+     */
+    public static String getValue(double[][] matrix, int x, int y, String valueNum){
+        System.out.print("Please type " + x*y + " values for your " + valueNum + "matrix in double format using dots (eg. 2.3) with commas in between without any space(eg. 2.3,3.4,4.5) type 'X' to go back to previous menu: ");
+        String input = scanner.nextLine();
+        input = inputControl(input, 3, x*y);
+        clear();
+        if(!input.equals("X"))
+            setMatrix(input, matrix, x, y);
+        return input;
+    }
+    
     
 
 //-----------------------------------------------------------------------------
