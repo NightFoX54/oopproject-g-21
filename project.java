@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 /**
  * This is a class for our Object Oriented Programming course project.
-*/
+ */
 public class project {
     static Scanner scanner = new Scanner(System.in);
 
@@ -62,7 +62,7 @@ public class project {
 //*****************************************************************************
 
 
-       /**
+    /**
      * Clears the terminal
      * 
      */
@@ -423,7 +423,7 @@ public class project {
 //*****************************************************************************
 //*****************************************************************************
 
-        /**
+    /**
      * A method for the main menu of matrix operations.
      */
     public static void matrixMain(){
@@ -458,7 +458,7 @@ public class project {
             }
         }
     }
-   /**
+    /**
      * A method that takes a matrix as an input from the user to calculate the transpose of that matrix.
      */
     public static void transposeMain(){
@@ -1108,7 +1108,7 @@ public class project {
 // TicTacToe Functions
 //*****************************************************************************
 //*****************************************************************************
- /**
+    /**
      * A method for the main menu of the Tic Tac Toe game.
      */
     public static void game() {
@@ -1244,7 +1244,7 @@ public class project {
         scanner.nextLine();
     }
 
- /**
+    /**
      * A method that prints the rules of the game.
      */
     public static void pRules() {
@@ -1351,7 +1351,7 @@ public class project {
     }
 
 
-/**
+    /**
      * A method that checks whether the current player has won the game or not.
      * 
      * @param arr gameboard as a matrix
