@@ -893,7 +893,135 @@ public class project {
         }
     }
 
+/**
+     * A method that takes the text to be encrypted and the encryption key from the user as an input, encrypts the text, and prints the text to the user.
+     * 
+     */
+    public static void encrypt(){
+        System.out.print("Please type the text to encrypt: ");
+        String text = scanner.nextLine();
+        String key;
+        int int_key;
+        System.out.print("Please type the encryption key between -26 and 26: ");
+            key = scanner.nextLine();
+            key = inputControl(key, 4, 0);
+            int_key = toInt(key);
+        while(int_key < -26 || int_key > 26){ 
+            System.out.print("Encryption key needs to be between -26 and 26. Please type again: ");
+            key = scanner.nextLine();
+            key = inputControl(key, 4, 0);
+            int_key = toInt(key);
+        }
+        String encrypted = "";
+        for(int i = 0; i < text.length(); i++){
+            char current = text.charAt(i);
+            if(int_key < 0){
+                if(current >= 'A' && current <= 'Z'){
+                    if(current + int_key < 'A'){
+                        encrypted += (char)('Z' - ('A' - (current + int_key) - 1));
+                    }
+                    else{
+                        encrypted += (char)(current + int_key);
+                    }
+                }
+                else if(current >= 'a' && current <= 'z'){
+                    if(current + int_key < 'a'){
+                        encrypted += (char)('z' - (('a' - (current + int_key)) - 1));
+                    }
+                    else{
+                        encrypted += (char)(current + int_key);
+                    }
+                }
+            }
+            else{
+                if(current >= 'A' && current <= 'Z'){
+                    if(current + int_key > 'Z'){
+                        encrypted += (char)('A' + ((current + int_key) - 'Z' - 1));
+                    }
+                    else{
+                        encrypted += (char)(current + int_key);
+                    }
+                }
+                else if(current >= 'a' && current <= 'z'){
+                    if(current + int_key > 'z'){
+                        encrypted += (char)('a' + ((current + int_key) - 'z' - 1));
+                    }
+                    else{
+                        encrypted += (char)(current + int_key);
+                    }
+                }
+            }
+        }
+        System.out.print("Encrypted message: ");
+        System.out.print(encrypted + "\n");
+        System.out.print("Press enter to continue: ");
+        scanner.nextLine();
+    }
 
+    /**
+     * A method that takes the text to be decrypted and the decryption key from the user as an input, decrypts the text, and prints the text to the user.
+     * 
+     */
+    private static void decrypt(){
+        System.out.print("Please type the text to decrypt: ");
+        String text = scanner.nextLine();
+        String key;
+        int int_key;
+        System.out.print("Please type the decryption key between -26 and 26: ");
+            key = scanner.nextLine();
+            key = inputControl(key, 4, 0);
+            int_key = toInt(key);
+        while(int_key < -26 || int_key > 26){ 
+            System.out.print("Decryption key needs to be between -26 and 26. Please type again: ");
+            key = scanner.nextLine();
+            key = inputControl(key, 4, 0);
+            int_key = toInt(key);
+        }
+        String decrypted = "";
+        for(int i = 0; i < text.length(); i++){
+            char current = text.charAt(i);
+            if(int_key > 0){
+                if(current >= 'A' && current <= 'Z'){
+                    if(current - int_key < 'A'){
+                        decrypted += (char)('Z' - ('A' - (current - int_key) - 1));
+                    }
+                    else{
+                        decrypted += (char)(current - int_key);
+                    }
+                }
+                else if(current >= 'a' && current <= 'z'){
+                    if(current - int_key < 'a'){
+                        decrypted += (char)('z' - (('a' - (current - int_key)) - 1));
+                    }
+                    else{
+                        decrypted += (char)(current - int_key);
+                    }
+                }
+            }
+            else{
+                if(current >= 'A' && current <= 'Z'){
+                    if(current - int_key > 'Z'){
+                        decrypted += (char)('A' + ((current - int_key) - 'Z' - 1));
+                    }
+                    else{
+                        decrypted += (char)(current - int_key);
+                    }
+                }
+                else if(current >= 'a' && current <= 'z'){
+                    if(current - int_key > 'z'){
+                        decrypted += (char)('a' + ((current - int_key) - 'z' - 1));
+                    }
+                    else{
+                        decrypted += (char)(current - int_key);
+                    }
+                }
+            }
+        }
+        System.out.print("Encrypted message: ");
+        System.out.print(decrypted + "\n");
+        System.out.print("Press enter to continue: ");
+        scanner.nextLine();
+    }
 
 
 //-----------------------------------------------------------------------------
