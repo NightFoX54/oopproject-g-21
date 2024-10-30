@@ -423,6 +423,42 @@ public class project {
 //*****************************************************************************
 //*****************************************************************************
 
+        /**
+     * A method for the main menu of matrix operations.
+     */
+    public static void matrixMain(){
+        String input;
+        String operation = "";
+        while(!operation.equals("E")){
+            clear();
+            System.out.println("[A] Transpose");
+            System.out.println("[B] Inverse");
+            System.out.println("[C] Matrix Multiplication");
+            System.out.println("[D] Element-Wise Multiplication");
+            System.out.println("[E] Return to the Main Menu");
+            System.out.print("Choose the operation you want to do: ");
+            input = scanner.nextLine();
+            operation = inputControl(input, 1, 0);
+            clear();
+            switch(operation){
+                case "A":
+                    transposeMain();
+                    break;
+                case "B":
+                    inverse();
+                    break;
+                case "C":
+                    multiply();
+                    break;
+                case "D":
+                    elementWise();
+                    break;
+                case "E":
+                    break;
+            }
+        }
+    }
+
     /**
      * A method that takes a matrix as an input from the user and calculates the inverse of that matrix.
      */
