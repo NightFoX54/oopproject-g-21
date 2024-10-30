@@ -861,6 +861,38 @@ public class project {
 // Text Encryption/Decryption Functions
 //*****************************************************************************
 //*****************************************************************************
+     /**
+     * A method for the main menu of text encyrption/decryption operations.
+     */
+    public static void textED(){
+        String input = "";
+        while(!input.equals("C")){
+            clear();
+            System.out.println("[A] Text Encryption");
+            System.out.println("[B] Text Decryption");
+            System.out.println("[C] Return to the Previous Menu");
+            System.out.print("Choose the operation you want to do: ");
+            input = scanner.nextLine();
+            char check = input.charAt(0);
+            while(input.length() != 1 || check < 'A' || check > 'C'){
+                System.out.print("Incorrect input, please type again: ");
+                input = scanner.nextLine();
+                check = input.charAt(0);
+            }
+            clear();
+            switch(input){
+                case "A":
+                    encrypt();
+                    break;
+                case "B":
+                    decrypt();
+                    break;
+                case "C":
+                    break;
+            }
+        }
+    }
+
 
 
 
