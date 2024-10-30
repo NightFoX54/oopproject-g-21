@@ -1273,6 +1273,77 @@ public class project {
         return 0;
     }
 
+
+/**
+     * A method that checks whether the current player has won the game or not.
+     * 
+     * @param arr gameboard as a matrix
+     * @param p player number
+     * @param comp input 1 if the current player is the computer
+     * @return 1 if the player has won the game, 0 if not
+     */
+    public static int winningCondition(int[][] arr, int p, int comp) {
+        for (int x = 0; x < 3; x++) {
+            // Check horizontal
+            if (arr[x][0] == p && arr[x][1] == p && arr[x][2] == p) {
+                if(comp == 1)
+                    System.out.println("\nComputer won!");
+                else
+                    System.out.println("\nPlayer " + p + " won!");
+                return 1;
+            }
+            // Check vertical
+            if (arr[0][x] == p && arr[1][x] == p && arr[2][x] == p) {
+                if(comp == 1)
+                    System.out.println("\nComputer won!");
+                else
+                    System.out.println("\nPlayer " + p + " won!");
+                return 1;
+            }
+        }
+        // Check diagonals
+        if (arr[0][0] == p && arr[1][1] == p && arr[2][2] == p) {
+            if(comp == 1)
+                    System.out.println("\nComputer won!");
+                else
+                    System.out.println("\nPlayer " + p + " won!");
+            return 1;
+        }
+        if (arr[0][2] == p && arr[1][1] == p && arr[2][0] == p) {
+            if(comp == 1)
+                    System.out.println("\nComputer won!");
+                else
+                    System.out.println("\nPlayer " + p + " won!");
+            return 1;
+        }
+        return 0;
+    }
+
+
+    /**
+     * A method that checks the given input from the user.
+     * 
+     * @param input given input from the user
+     * @param x lowest possible number that the user should type
+     * @param y biggest possible number that the user should type
+     * @return the given input as an integer
+     */
+    public static int inputCheck(String input, int x, int y) {
+        while(input.length() == 0){
+            System.out.print("Incorrect input. Please type a number between " + x + " and " + y + ": ");
+            input = scanner.nextLine();
+        }
+        char c = input.charAt(0);
+        while (input.length() != 1 || c < '0' + x || c > '0' + y) {
+            System.out.print("\nIncorrect input. Please type a number between " + x + " and " + y + ": ");
+            input = scanner.nextLine();
+            c = input.charAt(0);
+        }
+        return c - '0';
+    }
+
+
+    
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 
