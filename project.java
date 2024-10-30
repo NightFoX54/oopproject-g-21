@@ -152,6 +152,137 @@ public class project {
 //*****************************************************************************
 
 
+    /**
+     * This is the method for the main menu of array functions which also converts the given input into an array of doubles.
+     */
+    public static void arrayMain(){
+        String input;
+        int negativeCount = 0; int zeroCount = 0;
+        System.out.print("Please type the values for your array in double format using dots (eg. 2.3,3.4) with commas in between without any space(eg. 2,3,4) type 'X' to go back to previous menu: ");
+        input = scanner.nextLine();
+        input = inputControl(input, 3, 0);
+        
+        if(!input.equals("X")){
+            int commaCount = 0;
+            for(int i = 0; i < input.length(); i++){
+                if(input.charAt(i) == ',')
+                    commaCount++;
+            }
+            double[] arr = new double[commaCount + 1];
+
+            double value;
+            int comma1;
+            int comma2 = -1;
+            for(int i = 0; i < commaCount + 1; i++){
+                value = 0.0;
+                if(i == commaCount){
+                    value = toDouble(input.substring(comma2 + 1));
+                }
+                else{
+                    comma1 = comma2 + 1;
+                    comma2 = input.indexOf(',', comma1);
+                    value = toDouble(input.substring(comma1, comma2));
+                }
+                if(value < 0)
+                    negativeCount++;
+                if(value == 0)
+                    zeroCount++;
+                arr[i] = value;
+            }
+            clear();
+            System.out.print("Your array: ");
+            for(int i = 0; i < arr.length; i++){
+                System.out.print(arr[i]);
+                if(i != arr.length - 1)
+                    System.out.print(",");
+            }
+            System.out.println("\n");
+            System.out.println("Median: " + med(arr));
+            System.out.println("Mean: " + mean(arr));
+            if(negativeCount == 0)
+                System.out.println("Geometric mean: " + geo_mean(arr));
+            else
+                System.out.println("Geometric mean could not be calculated since the array contains negative numbers");
+            if(zeroCount == 0)
+                System.out.println("Harmonic mean: " + harmonic(arr,0, arr.length - 1));
+            else
+                System.out.println("Harmonic mean could not be calculated since the array contains zero");
+            System.out.print("\nPress enter to continue: ");
+            scanner.nextLine();
+        }
+    }
+
+
+    /**
+     * A method that sorts the given array and calculates the median of the array
+     * 
+     * @param arr given array
+     * @return median of the array
+     */
+    public static double med(double[] arr){
+
+        Arrays.sort(arr);
+
+        if(arr.length % 2 != 0){
+            return arr[arr.length/2];
+        }else {
+            return (arr[arr.length/2] + arr[(arr.length/2) - 1]) / 2;
+        }
+    }
+
+    /**
+     * A method that calculates the mean of the given array.
+     * 
+     * @param arr given array
+     * @return mean of the array
+     */
+    public static double mean(double[] arr){
+        double sum = 0;
+
+        for(int i = 0; i < arr.length;i++){
+            sum +=arr[i];
+        }
+        return sum / (double)arr.length;
+    }
+
+    /**
+     * A method that that calculates the geometric mean of the given array.
+     * 
+     * @param arr given array
+     * @return geometric mean of the array
+     */
+    public static double geo_mean(double[] arr){
+        double result = 1;
+
+        for(int i = 0; i < arr.length; i++){
+            result *= arr[i];
+        }
+        return Math.pow(result, 1.0 / arr.length);
+
+    }
+
+    /**
+     * A method that calculates the harmonic mean of the given array.
+     * 
+     * @param arr given array
+     * @param left  left border for the recursive call, use 0 for the first call
+     * @param right right border for the recursive call, use array's size - 1 for the first call
+     * @return harmonic mean of the array
+     */
+    public static double harmonic(double[] arr, int left, int right){
+        if(left == right){
+            return 1 / arr[right];
+        }
+        int middle = (right + left) / 2;
+        double left_val = harmonic(arr, left, middle);
+        double right_val = harmonic(arr, middle + 1, right);
+
+        if(left == 0 && right == arr.length - 1)
+            return (arr.length / (left_val + right_val));
+        return (left_val + right_val);
+    }
+
+
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
