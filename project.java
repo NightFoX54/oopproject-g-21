@@ -91,6 +91,10 @@ public class project {
                 while(input.length() != 1 || check < 'A' || check > 'E'){
                     System.out.print("Incorrect input, please type again: ");
                     input = scanner.nextLine();
+                    while(input.length() == 0){
+                        System.out.print("Incorrect input, please type again: ");
+                        input = scanner.nextLine();
+                    }
                     check = input.charAt(0);
                 }
                 break;
@@ -167,6 +171,10 @@ public class project {
                     if(correctInput == 0){
                         System.out.print("Incorrect input, please type again or type 'X' to go back to previous menu: ");
                         input = scanner.nextLine();
+                        while(input.length() == 0){
+                            System.out.print("Incorrect input, please type again or type 'X' to go back to previous menu: ");
+                            input = scanner.nextLine();
+                        }
                     }
                 }
                 break;
@@ -184,10 +192,12 @@ public class project {
                     if(correctInput == 0){
                         System.out.print("Incorrect input, please type again or type 'X' to go back to previous menu: ");
                         input = scanner.nextLine();
+                        while(input.length() == 0){
+                            System.out.print("Incorrect input, please type again or type 'X' to go back to previous menu: ");
+                            input = scanner.nextLine();
+                        }
                     }
                 }
-
-            
         }
         return input;
     }
