@@ -458,7 +458,48 @@ public class project {
             }
         }
     }
+   /**
+     * A method that takes a matrix as an input from the user to calculate the transpose of that matrix.
+     */
+    public static void transposeMain(){
+        clear();
+        int[] dimensions = new int[2];
+        String input = getDimension(dimensions, "");
+        if(!input.equals("X")){
+            int x = dimensions[0];
+            int y = dimensions[1];
+            double[][] matrix1 = new double[x][y];
+            input = getValue(matrix1, x, y, " ");
+            if(!input.equals("X")){
+                double[][] matrix2 = new double[y][x];
+                transpose(matrix1, matrix2, x, y);
+                clear();
+                System.out.println("Your matrix: ");
+                printMatrix(matrix1, x, y);
+                System.out.println("Transpose of your matrix: ");
+                printMatrix(matrix2, y, x);
+                System.out.print("Press enter to continue: ");
+                scanner.nextLine();
+            }
+        }
+    }
 
+    /**
+     * A method that saves the transpose of matrix1 to matrix2.
+     * 
+     * @param matrix1 given matrix
+     * @param matrix2 an empty matrix to save the transpose matrix
+     * @param x the total number of rows in matrix1
+     * @param y the total number of columns in matrix1
+     */
+    public static void transpose(double[][] matrix1, double[][] matrix2, int x, int y){
+        for(int i = 0; i < x * y; i++){
+            matrix2[i % y][i / y] = matrix1[i / y][i % y];
+        }
+    }
+
+
+    
     /**
      * A method that takes a matrix as an input from the user and calculates the inverse of that matrix.
      */
