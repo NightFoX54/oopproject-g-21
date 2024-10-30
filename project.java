@@ -1216,6 +1216,62 @@ public class project {
         arr[(y - 1) / 3][(y - 1) % 3] = pl;
     }
 
+    /**
+     * A method that checks the cell that the player chose. Asks for another input if the chosen cell is full. Returns the chosen cell.
+     * 
+     * @param arr gameboard as a matrix
+     * @param y cell number
+     * @return chosen cell
+     */
+    public static int moveCheck(int[][] arr, int y) {
+        String input;
+        while (arr[(y - 1) / 3][(y - 1) % 3] != 0 || y < 1 || y > 9) {
+            if (arr[(y - 1) / 3][(y - 1) % 3] != 0 && !(y < 1 || y > 9)) {
+                System.out.print("This cell is full! Choose another cell: ");
+            } 
+            else {
+                System.out.print("You have to choose a number between 1 and 9: ");
+            }
+            input = scanner.nextLine();
+            y = inputCheck(input, 1, 9);
+        }
+        return y;
+    }
+
+    /**
+     * A method that checks the cell that the ai chose. Generates another random number if the chosen cell is full. Returns the chosen cell.
+     * 
+     * @param arr gameboard as a matrix
+     * @param y cell number
+     * @return chosen cell
+     */
+    public static int moveCheckAi(int[][] arr, int y) {
+        Random rand = new Random();
+        while (arr[(y - 1) / 3][(y - 1) % 3] > 0) {
+            y = rand.nextInt(9) + 1;
+        }
+        return y;
+    }
+
+    /**
+     * A method that checks whether the board is full or not.
+     * 
+     * @param arr gameboard as a matrix
+     * @return 1 if the board is full, 0 if the board is not full
+     */
+    public static int gOver(int[][] arr) {
+        int emptyCellCount = 0;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (arr[i][j] == 0) emptyCellCount++;
+            }
+        }
+        if (emptyCellCount == 0) {
+            System.out.println("\nNo empty spaces left!");
+            return 1;
+        }
+        return 0;
+    }
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
