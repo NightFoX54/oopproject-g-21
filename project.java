@@ -1380,6 +1380,7 @@ public class project {
         }
         if (emptyCellCount == 0) {
             System.out.println("\nNo empty spaces left!");
+            System.out.println("\nDraw");
             return 1;
         }
         return 0;
