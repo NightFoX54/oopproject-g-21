@@ -110,12 +110,15 @@ public class project {
                             String y = input.substring(comma + 1);
                             for(int i = 0; i < x.length(); i++){
                                 current = x.charAt(i);
-                                
+                                if(current == '0' && i == 0)
+                                    correctInput = 0;
                                 if(current < '0' || current > '9')
                                     correctInput = 0;
                             }
                             for(int i = 0; i < y.length(); i++){
                                 current = y.charAt(i);
+                                if(current == '0' && i == 0)
+                                    correctInput = 0;
                                 if(current < '0' || current > '9')
                                     correctInput = 0;
                             }
@@ -1019,6 +1022,8 @@ public class project {
                         encrypted += (char)(current + int_key);
                     }
                 }
+                else
+                    encrypted += (char)current;
             }
             else{
                 if(current >= 'A' && current <= 'Z'){
@@ -1037,6 +1042,8 @@ public class project {
                         encrypted += (char)(current + int_key);
                     }
                 }
+                else
+                    encrypted += (char)current;
             }
         }
         System.out.print("Encrypted message: ");
@@ -1084,6 +1091,8 @@ public class project {
                         decrypted += (char)(current - int_key);
                     }
                 }
+                else
+                    encrypted += (char)current;
             }
             else{
                 if(current >= 'A' && current <= 'Z'){
@@ -1102,6 +1111,8 @@ public class project {
                         decrypted += (char)(current - int_key);
                     }
                 }
+                else
+                    encrypted += (char)current;
             }
         }
         System.out.print("Encrypted message: ");
