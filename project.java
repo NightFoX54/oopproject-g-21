@@ -1092,7 +1092,7 @@ public class project {
                     }
                 }
                 else
-                    encrypted += (char)current;
+                    decrypted += (char)current;
             }
             else{
                 if(current >= 'A' && current <= 'Z'){
@@ -1112,7 +1112,7 @@ public class project {
                     }
                 }
                 else
-                    encrypted += (char)current;
+                    decrypted += (char)current;
             }
         }
         System.out.print("Encrypted message: ");
