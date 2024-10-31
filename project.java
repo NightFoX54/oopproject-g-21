@@ -81,13 +81,15 @@ public class project {
      */
     public static String inputControl(String input, int selection, int dimension){
         int correctInput;
-        while(input.length() == 0){
+        while(input.length() == 0 && selection != 1){
             System.out.print("Incorrect input, please type again: ");
             input = scanner.nextLine();
         }
         switch(selection){
             case 1:
-                char check = input.charAt(0);
+                char check = '5';
+                if(input.length() != 0)
+                    check = input.charAt(0);
                 while(input.length() != 1 || check < 'A' || check > 'E'){
                     System.out.print("Incorrect input, please type again: ");
                     input = scanner.nextLine();
@@ -192,6 +194,9 @@ public class project {
                             }
                         }
                     }
+                    if(input.equals("X"))
+                        correctInput = 1;
+                    
                     if(correctInput == 0){
                         System.out.print("Incorrect input, please type again or type 'X' to go back to previous menu: ");
                         input = scanner.nextLine();
@@ -798,13 +803,15 @@ public class project {
      * @return the number of digits in the given double value
      */
     public static int returnDigit(double number){
-        long number2 = (long)Math.abs(number);
+        double number2 = number;
+        if(number < 0)
+            number2 *= -1;
         int digit = 0;
-        while(number2 > 0){
+        while((int)number2 > 0){
             number2 /= 10;
             digit++;
         }
-        if(number == 0)
+        if(number == 0.0)
             return 1;
         else if(number < 0)
             return (digit + 1);
@@ -963,11 +970,14 @@ public class project {
             System.out.println("[C] Return to the Previous Menu");
             System.out.print("Choose the operation you want to do: ");
             input = scanner.nextLine();
-            char check = input.charAt(0);
+            char check = '1';
+            if(input.length() != 0)
+                check = input.charAt(0);
             while(input.length() != 1 || check < 'A' || check > 'C'){
                 System.out.print("Incorrect input, please type again: ");
                 input = scanner.nextLine();
-                check = input.charAt(0);
+                if(input.length() != 0)
+                    check = input.charAt(0);
             }
             clear();
             switch(input){
@@ -992,64 +1002,66 @@ public class project {
         String text = scanner.nextLine();
         String key;
         int int_key;
-        System.out.print("Please type the encryption key between -26 and 26: ");
-            key = scanner.nextLine();
-            key = inputControl(key, 4, 0);
-            int_key = toInt(key);
-        while(int_key < -26 || int_key > 26){ 
-            System.out.print("Encryption key needs to be between -26 and 26. Please type again: ");
+        System.out.print("Please type the encryption key between -26 and 26, type 'X' to go back to previous menu: ");
+        key = scanner.nextLine();
+        key = inputControl(key, 4, 0);
+        int_key = toInt(key);
+        while(!key.equals("X") && (int_key < -26 || int_key > 26)){ 
+            System.out.print("Encryption key needs to be between -26 and 26. Please type again or type 'X' to go back to previous menu: ");
             key = scanner.nextLine();
             key = inputControl(key, 4, 0);
             int_key = toInt(key);
         }
-        String encrypted = "";
-        for(int i = 0; i < text.length(); i++){
-            char current = text.charAt(i);
-            if(int_key < 0){
-                if(current >= 'A' && current <= 'Z'){
-                    if(current + int_key < 'A'){
-                        encrypted += (char)('Z' - ('A' - (current + int_key) - 1));
+        if(!key.equals("X")){
+            String encrypted = "";
+            for(int i = 0; i < text.length(); i++){
+                char current = text.charAt(i);
+                if(int_key < 0){
+                    if(current >= 'A' && current <= 'Z'){
+                        if(current + int_key < 'A'){
+                            encrypted += (char)('Z' - ('A' - (current + int_key) - 1));
+                        }
+                        else{
+                            encrypted += (char)(current + int_key);
+                        }
                     }
-                    else{
-                        encrypted += (char)(current + int_key);
+                    else if(current >= 'a' && current <= 'z'){
+                        if(current + int_key < 'a'){
+                            encrypted += (char)('z' - (('a' - (current + int_key)) - 1));
+                        }
+                        else{
+                            encrypted += (char)(current + int_key);
+                        }
                     }
+                    else
+                        encrypted += (char)current;
                 }
-                else if(current >= 'a' && current <= 'z'){
-                    if(current + int_key < 'a'){
-                        encrypted += (char)('z' - (('a' - (current + int_key)) - 1));
+                else{
+                    if(current >= 'A' && current <= 'Z'){
+                        if(current + int_key > 'Z'){
+                            encrypted += (char)('A' + ((current + int_key) - 'Z' - 1));
+                        }
+                        else{
+                            encrypted += (char)(current + int_key);
+                        }
                     }
-                    else{
-                        encrypted += (char)(current + int_key);
+                    else if(current >= 'a' && current <= 'z'){
+                        if(current + int_key > 'z'){
+                            encrypted += (char)('a' + ((current + int_key) - 'z' - 1));
+                        }
+                        else{
+                            encrypted += (char)(current + int_key);
+                        }
                     }
+                    else
+                        encrypted += (char)current;
                 }
-                else
-                    encrypted += (char)current;
             }
-            else{
-                if(current >= 'A' && current <= 'Z'){
-                    if(current + int_key > 'Z'){
-                        encrypted += (char)('A' + ((current + int_key) - 'Z' - 1));
-                    }
-                    else{
-                        encrypted += (char)(current + int_key);
-                    }
-                }
-                else if(current >= 'a' && current <= 'z'){
-                    if(current + int_key > 'z'){
-                        encrypted += (char)('a' + ((current + int_key) - 'z' - 1));
-                    }
-                    else{
-                        encrypted += (char)(current + int_key);
-                    }
-                }
-                else
-                    encrypted += (char)current;
-            }
+            System.out.print("Encrypted message: ");
+            System.out.print(encrypted + "\n");
+            System.out.print("Press enter to continue: ");
+            scanner.nextLine();
         }
-        System.out.print("Encrypted message: ");
-        System.out.print(encrypted + "\n");
-        System.out.print("Press enter to continue: ");
-        scanner.nextLine();
     }
 
     /**
@@ -1061,64 +1073,66 @@ public class project {
         String text = scanner.nextLine();
         String key;
         int int_key;
-        System.out.print("Please type the decryption key between -26 and 26: ");
-            key = scanner.nextLine();
-            key = inputControl(key, 4, 0);
-            int_key = toInt(key);
-        while(int_key < -26 || int_key > 26){ 
-            System.out.print("Decryption key needs to be between -26 and 26. Please type again: ");
+        System.out.print("Please type the decryption key between -26 and 26, type 'X' to go back to previous menu: ");
+        key = scanner.nextLine();
+        key = inputControl(key, 4, 0);
+        int_key = toInt(key);
+        while(!key.equals("X") && (int_key < -26 || int_key > 26)){ 
+            System.out.print("Decryption key needs to be between -26 and 26. Please type again or type 'X' to go back to previous menu: ");
             key = scanner.nextLine();
             key = inputControl(key, 4, 0);
             int_key = toInt(key);
         }
-        String decrypted = "";
-        for(int i = 0; i < text.length(); i++){
-            char current = text.charAt(i);
-            if(int_key > 0){
-                if(current >= 'A' && current <= 'Z'){
-                    if(current - int_key < 'A'){
-                        decrypted += (char)('Z' - ('A' - (current - int_key) - 1));
+        if(!key.equals("X")){
+            String decrypted = "";
+            for(int i = 0; i < text.length(); i++){
+                char current = text.charAt(i);
+                if(int_key > 0){
+                    if(current >= 'A' && current <= 'Z'){
+                        if(current - int_key < 'A'){
+                            decrypted += (char)('Z' - ('A' - (current - int_key) - 1));
+                        }
+                        else{
+                            decrypted += (char)(current - int_key);
+                        }
                     }
-                    else{
-                        decrypted += (char)(current - int_key);
+                    else if(current >= 'a' && current <= 'z'){
+                        if(current - int_key < 'a'){
+                            decrypted += (char)('z' - (('a' - (current - int_key)) - 1));
+                        }
+                        else{
+                            decrypted += (char)(current - int_key);
+                        }
                     }
+                    else
+                        decrypted += (char)current;
                 }
-                else if(current >= 'a' && current <= 'z'){
-                    if(current - int_key < 'a'){
-                        decrypted += (char)('z' - (('a' - (current - int_key)) - 1));
+                else{
+                    if(current >= 'A' && current <= 'Z'){
+                        if(current - int_key > 'Z'){
+                            decrypted += (char)('A' + ((current - int_key) - 'Z' - 1));
+                        }
+                        else{
+                            decrypted += (char)(current - int_key);
+                        }
                     }
-                    else{
-                        decrypted += (char)(current - int_key);
+                    else if(current >= 'a' && current <= 'z'){
+                        if(current - int_key > 'z'){
+                            decrypted += (char)('a' + ((current - int_key) - 'z' - 1));
+                        }
+                        else{
+                            decrypted += (char)(current - int_key);
+                        }
                     }
+                    else
+                        decrypted += (char)current;
                 }
-                else
-                    decrypted += (char)current;
             }
-            else{
-                if(current >= 'A' && current <= 'Z'){
-                    if(current - int_key > 'Z'){
-                        decrypted += (char)('A' + ((current - int_key) - 'Z' - 1));
-                    }
-                    else{
-                        decrypted += (char)(current - int_key);
-                    }
-                }
-                else if(current >= 'a' && current <= 'z'){
-                    if(current - int_key > 'z'){
-                        decrypted += (char)('a' + ((current - int_key) - 'z' - 1));
-                    }
-                    else{
-                        decrypted += (char)(current - int_key);
-                    }
-                }
-                else
-                    decrypted += (char)current;
-            }
+            System.out.print("Encrypted message: ");
+            System.out.print(decrypted + "\n");
+            System.out.print("Press enter to continue: ");
+            scanner.nextLine();
         }
-        System.out.print("Encrypted message: ");
-        System.out.print(decrypted + "\n");
-        System.out.print("Press enter to continue: ");
-        scanner.nextLine();
     }
 
 
@@ -1435,7 +1449,8 @@ public class project {
         while (input.length() != 1 || c < '0' + x || c > '0' + y) {
             System.out.print("\nIncorrect input. Please type a number between " + x + " and " + y + ": ");
             input = scanner.nextLine();
-            c = input.charAt(0);
+            if(input.length() != 0)
+                c = input.charAt(0);
         }
         return c - '0';
     }
