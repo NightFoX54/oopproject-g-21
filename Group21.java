@@ -5,13 +5,13 @@ import java.util.Scanner;
 /**
  * This is a class for our Object Oriented Programming course project.
  */
-public class project {
+public class Group21 {
     static Scanner scanner = new Scanner(System.in);
 
     /**
      * Default constructor for the {@code project} class.
      */
-    public project() {
+    public Group21() {
         // Default constructor - no specific initialization
     }
 
