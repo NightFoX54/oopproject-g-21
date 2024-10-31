@@ -1495,6 +1495,7 @@ public class Group21 {
      * @param a first cell to check
      * @param b second cell to check
      * @param c third cell to check
+     * @param player current player number
      * @return the cell that has the different value, return 0 if all of them are different
      */
     public static int returnDifferent(int[][] arr, int a, int b, int c, int player) {
